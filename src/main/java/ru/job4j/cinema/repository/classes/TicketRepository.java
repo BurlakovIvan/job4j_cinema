@@ -1,14 +1,15 @@
-package ru.job4j.cinema.repository;
+package ru.job4j.cinema.repository.classes;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cinema.constant.NumberCinemaPlace;
 import ru.job4j.cinema.model.Ticket;
+import ru.job4j.cinema.repository.TicketStore;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,8 +20,8 @@ import java.util.List;
 @ThreadSafe
 @AllArgsConstructor
 @Repository
-public class TicketRepository {
-    private final BasicDataSource pool;
+public class TicketRepository implements TicketStore {
+    private final DataSource pool;
     private static final Logger LOGGER = LoggerFactory.getLogger(TicketRepository.class.getName());
 
     private final static String INSERT = """
@@ -42,6 +43,7 @@ public class TicketRepository {
                                          AND cell = ? AND user_id is null
                                          """;
 
+    @Override
     public boolean add(int sessionID) {
         int row = NumberCinemaPlace.ROW;
         int cell = NumberCinemaPlace.CELL;
@@ -63,6 +65,7 @@ public class TicketRepository {
         return rsl;
     }
 
+    @Override
     public List<Ticket> findTicketForSessionMovie(int sessionId) {
         List<Ticket> tickets = new ArrayList<>();
         try (Connection cn = pool.getConnection();
@@ -80,6 +83,7 @@ public class TicketRepository {
         return tickets;
     }
 
+    @Override
     public boolean addTicketUser(Ticket ticket) {
         boolean rsl = false;
         try (Connection cn = pool.getConnection();

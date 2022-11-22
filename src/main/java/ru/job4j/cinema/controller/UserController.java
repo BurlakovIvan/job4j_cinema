@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.cinema.constant.TypeFailController;
 import ru.job4j.cinema.model.User;
+import ru.job4j.cinema.service.ServiceUser;
 import ru.job4j.cinema.util.UserSession;
-import ru.job4j.cinema.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,7 +22,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserController implements ControllerClass {
 
-    private final UserService userService;
+    private final ServiceUser userService;
     private static final int TYPE = TypeFailController.USER;
 
     @Override

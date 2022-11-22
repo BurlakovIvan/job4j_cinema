@@ -1,13 +1,14 @@
-package ru.job4j.cinema.repository;
+package ru.job4j.cinema.repository.classes;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cinema.model.User;
+import ru.job4j.cinema.repository.UserStore;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,8 @@ import java.util.Optional;
 @ThreadSafe
 @AllArgsConstructor
 @Repository
-public class UserRepository {
-    private final BasicDataSource pool;
+public class UserRepository implements UserStore {
+    private final DataSource pool;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRepository.class.getName());
     private final static String SELECT = "SELECT * FROM users";
     private final static String SELECT_ID = String.format("%s WHERE id = ?", SELECT);
@@ -28,6 +29,7 @@ public class UserRepository {
                                          VALUES (?, ?, ?)
                                          """;
 
+    @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
         try (Connection cn = pool.getConnection();
@@ -44,6 +46,7 @@ public class UserRepository {
         return users;
     }
 
+    @Override
     public Optional<User> add(User user) {
         Optional<User> rsl = Optional.empty();
         try (Connection cn = pool.getConnection();
@@ -66,6 +69,7 @@ public class UserRepository {
         return rsl;
     }
 
+    @Override
     public Optional<User> findById(int id) {
         Optional<User> rsl = Optional.empty();
         try (Connection cn = pool.getConnection();
@@ -83,6 +87,7 @@ public class UserRepository {
         return rsl;
     }
 
+    @Override
     public Optional<User> findUserByEmailAndPwd(String email, String password) {
         Optional<User> rsl = Optional.empty();
         try (Connection cn = pool.getConnection();

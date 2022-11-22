@@ -7,11 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.model.User;
+import ru.job4j.cinema.service.ServiceSession;
+import ru.job4j.cinema.service.ServiceTicket;
 import ru.job4j.cinema.util.UserSession;
 import ru.job4j.cinema.constant.TypeFailController;
 import ru.job4j.cinema.model.Session;
-import ru.job4j.cinema.service.SessionService;
-import ru.job4j.cinema.service.TicketService;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,8 +19,8 @@ import javax.servlet.http.HttpSession;
 @ThreadSafe
 @AllArgsConstructor
 public class TicketController implements ControllerClass {
-    private final TicketService ticketService;
-    private final SessionService sessionService;
+    private final ServiceTicket ticketService;
+    private final ServiceSession sessionService;
     private static final int TYPE = TypeFailController.TICKET;
 
     @Override

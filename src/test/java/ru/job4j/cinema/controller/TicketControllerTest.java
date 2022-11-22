@@ -7,8 +7,10 @@ import ru.job4j.cinema.constant.TypeFailController;
 import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.model.User;
-import ru.job4j.cinema.service.SessionService;
-import ru.job4j.cinema.service.TicketService;
+import ru.job4j.cinema.service.ServiceSession;
+import ru.job4j.cinema.service.ServiceTicket;
+import ru.job4j.cinema.service.classes.SessionService;
+import ru.job4j.cinema.service.classes.TicketService;
 import ru.job4j.cinema.util.UserSession;
 
 import javax.servlet.http.HttpSession;
@@ -27,8 +29,8 @@ class TicketControllerTest {
         Map<Session, String> sessions = Map.of(session1, "Movie", session2, "Movie");
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
         TicketController ticketController
                 = new TicketController(ticketService, sessionService);
         when(sessionService.findAll()).thenReturn(sessions);
@@ -40,8 +42,8 @@ class TicketControllerTest {
     @Test
     public void whenCreateTicketSuccess() {
         Ticket ticket = new Ticket(1, 1, 1, 1, 1);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
         TicketController ticketController
                 = new TicketController(ticketService, sessionService);
         when(ticketService.add(ticket.getSessionId())).thenReturn(true);
@@ -53,8 +55,8 @@ class TicketControllerTest {
     @Test
     public void whenCreateTicketFail() {
         Ticket ticket = new Ticket(1, 1, 1, 1, 1);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
         TicketController ticketController
                 = new TicketController(ticketService, sessionService);
         when(ticketService.add(ticket.getSessionId())).thenReturn(false);
@@ -70,8 +72,8 @@ class TicketControllerTest {
     public void whenFindAllTickets() {
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
         TicketController ticketController
                 = new TicketController(ticketService, sessionService);
         String page = ticketController.lists(model, session);
@@ -82,8 +84,8 @@ class TicketControllerTest {
     public void whenPlaceTicketNoAccess() {
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
         TicketController ticketController
                 = new TicketController(ticketService, sessionService);
         String page = ticketController.thisPlace(model, 1, 1, session);
@@ -95,8 +97,8 @@ class TicketControllerTest {
         User user = new User(1, "Name", "Password", "Email");
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
         TicketController ticketController
                 = new TicketController(ticketService, sessionService);
         when(UserSession.user(session)).thenReturn(user);
@@ -110,8 +112,8 @@ class TicketControllerTest {
         User user = new User(1, "Name", "Password", "Email");
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
         TicketController ticketController
                 = new TicketController(ticketService, sessionService);
         when(ticketService.addTicketUser(Mockito.any())).thenReturn(true);
@@ -129,8 +131,8 @@ class TicketControllerTest {
         User user = new User(1, "Name", "Password", "Email");
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
         TicketController ticketController
                 = new TicketController(ticketService, sessionService);
         when(ticketService.addTicketUser(Mockito.any())).thenReturn(false);
@@ -153,8 +155,8 @@ class TicketControllerTest {
         Session sessionMovie = new Session(1, 1, "Session");
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
         TicketController ticketController
                 = new TicketController(ticketService, sessionService);
         when(session.getAttribute("session")).thenReturn(sessionMovie);
@@ -165,8 +167,8 @@ class TicketControllerTest {
 
     @Test
     public void whenCancel() {
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
         TicketController ticketController
                 = new TicketController(ticketService, sessionService);
         String page = ticketController.cancel();
@@ -175,8 +177,8 @@ class TicketControllerTest {
 
     @Test
     public void whenSuccess() {
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
         TicketController ticketController
                 = new TicketController(ticketService, sessionService);
         String page = ticketController.success();

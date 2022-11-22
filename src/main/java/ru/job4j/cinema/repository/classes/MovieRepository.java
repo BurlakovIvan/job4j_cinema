@@ -1,22 +1,23 @@
-package ru.job4j.cinema.repository;
+package ru.job4j.cinema.repository.classes;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cinema.model.Movie;
+import ru.job4j.cinema.repository.MovieStore;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 
 @ThreadSafe
 @AllArgsConstructor
 @Repository
-public class MovieRepository {
+public class MovieRepository implements MovieStore {
 
-    private final BasicDataSource pool;
+    private final DataSource pool;
     private static final Logger LOGGER = LoggerFactory.getLogger(MovieRepository.class.getName());
     private final static String SELECT = "SELECT * FROM movies";
 
@@ -41,6 +42,7 @@ public class MovieRepository {
                                          VALUES (?, ?, ?, ?, ?)
                                          """;
 
+    @Override
     public Map<Movie, String> findAllWithCountryName() {
         Map<Movie, String> movies = new HashMap<>();
         try (Connection cn = pool.getConnection();
@@ -59,6 +61,7 @@ public class MovieRepository {
         return movies;
     }
 
+    @Override
     public List<Movie> findAll() {
         List<Movie> movies = new ArrayList<>();
         try (Connection cn = pool.getConnection();
@@ -75,6 +78,7 @@ public class MovieRepository {
         return movies;
     }
 
+    @Override
     public boolean add(Movie movie) {
         boolean rsl = false;
         try (Connection cn = pool.getConnection();
@@ -93,6 +97,7 @@ public class MovieRepository {
         return rsl;
     }
 
+    @Override
     public boolean updateWithPhoto(Movie movie) {
         boolean rsl = false;
         try (Connection cn = pool.getConnection();
@@ -111,6 +116,7 @@ public class MovieRepository {
         return rsl;
     }
 
+    @Override
     public boolean updateWithoutPhoto(Movie movie) {
         boolean rsl = false;
         try (Connection cn = pool.getConnection();
@@ -128,6 +134,7 @@ public class MovieRepository {
         return rsl;
     }
 
+    @Override
     public Optional<Movie> findById(int id) {
         Optional<Movie> rsl = Optional.empty();
         try (Connection cn = pool.getConnection();

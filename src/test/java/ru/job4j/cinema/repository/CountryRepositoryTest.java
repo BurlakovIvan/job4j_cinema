@@ -1,10 +1,11 @@
 package ru.job4j.cinema.repository;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.*;
-import ru.job4j.cinema.Main;
 import ru.job4j.cinema.model.Country;
+import ru.job4j.cinema.repository.classes.CountryRepository;
+import ru.job4j.cinema.util.LoadProperties;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -13,8 +14,8 @@ import static org.assertj.core.api.Assertions.*;
 
 public class CountryRepositoryTest {
 
-    private final static BasicDataSource POOL = new Main().loadPool();
-    private final static CountryRepository REPOSITORY = new CountryRepository(POOL);
+    private final static DataSource POOL = new LoadProperties().loadPool();
+    private final static CountryStore REPOSITORY = new CountryRepository(POOL);
     private final static String TRUNCATE = "TRUNCATE TABLE countries RESTART IDENTITY;";
 
     @BeforeAll

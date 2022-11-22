@@ -1,11 +1,13 @@
 package ru.job4j.cinema.repository;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.*;
-import ru.job4j.cinema.Main;
 import ru.job4j.cinema.model.Country;
 import ru.job4j.cinema.model.Movie;
+import ru.job4j.cinema.repository.classes.CountryRepository;
+import ru.job4j.cinema.repository.classes.MovieRepository;
+import ru.job4j.cinema.util.LoadProperties;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.time.LocalDate;
@@ -15,8 +17,8 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.*;
 
 class MovieRepositoryTest {
-    private final static BasicDataSource POOL = new Main().loadPool();
-    private final static MovieRepository REPOSITORY = new MovieRepository(POOL);
+    private final static DataSource POOL = new LoadProperties().loadPool();
+    private final static MovieStore REPOSITORY = new MovieRepository(POOL);
     private final static String TRUNCATE = "TRUNCATE TABLE %s RESTART IDENTITY;";
 
     @BeforeAll

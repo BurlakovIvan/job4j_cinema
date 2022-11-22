@@ -1,14 +1,16 @@
 package ru.job4j.cinema.repository;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ru.job4j.cinema.Main;
 import ru.job4j.cinema.model.Movie;
 import ru.job4j.cinema.model.Session;
+import ru.job4j.cinema.repository.classes.MovieRepository;
+import ru.job4j.cinema.repository.classes.SessionRepository;
+import ru.job4j.cinema.util.LoadProperties;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.time.LocalDate;
@@ -18,8 +20,8 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.*;
 
 class SessionRepositoryTest {
-    private final static BasicDataSource POOL = new Main().loadPool();
-    private final static SessionRepository REPOSITORY = new SessionRepository(POOL);
+    private final static DataSource POOL = new LoadProperties().loadPool();
+    private final static SessionStore REPOSITORY = new SessionRepository(POOL);
     private final static String TRUNCATE = "TRUNCATE TABLE %s RESTART IDENTITY;";
 
     @BeforeAll

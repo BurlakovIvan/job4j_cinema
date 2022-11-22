@@ -8,9 +8,12 @@ import ru.job4j.cinema.constant.TypeFailController;
 import ru.job4j.cinema.model.Country;
 import ru.job4j.cinema.model.Movie;
 import ru.job4j.cinema.model.Session;
-import ru.job4j.cinema.service.CountryService;
-import ru.job4j.cinema.service.SessionService;
-import ru.job4j.cinema.service.MovieService;
+import ru.job4j.cinema.service.ServiceCountry;
+import ru.job4j.cinema.service.ServiceMovie;
+import ru.job4j.cinema.service.ServiceSession;
+import ru.job4j.cinema.service.classes.CountryService;
+import ru.job4j.cinema.service.classes.SessionService;
+import ru.job4j.cinema.service.classes.MovieService;
 
 import javax.servlet.http.HttpSession;
 
@@ -34,9 +37,9 @@ class MovieControllerTest {
         );
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        MovieService movieService = mock(MovieService.class);
-        CountryService countryService = mock(CountryService.class);
-        SessionService sessionService = mock(SessionService.class);
+        ServiceMovie movieService = mock(MovieService.class);
+        ServiceCountry countryService = mock(CountryService.class);
+        ServiceSession sessionService = mock(SessionService.class);
         when(countryService.findAll()).thenReturn(countries);
         MovieController movieController =
                 new MovieController(movieService, countryService, sessionService);
@@ -48,9 +51,9 @@ class MovieControllerTest {
     public void whenCreateMovieSuccess() {
         Movie movie = new Movie();
         MultipartFile file = mock(MultipartFile.class);
-        MovieService movieService = mock(MovieService.class);
-        CountryService countryService = mock(CountryService.class);
-        SessionService sessionService = mock(SessionService.class);
+        ServiceMovie movieService = mock(MovieService.class);
+        ServiceCountry countryService = mock(CountryService.class);
+        ServiceSession sessionService = mock(SessionService.class);
         when(movieService.add(Mockito.any())).thenReturn(true);
         MovieController movieController =
                 new MovieController(movieService, countryService, sessionService);
@@ -69,9 +72,9 @@ class MovieControllerTest {
     public void whenCreateMovieFail() {
         Movie movie = new Movie();
         MultipartFile file = mock(MultipartFile.class);
-        MovieService movieService = mock(MovieService.class);
-        CountryService countryService = mock(CountryService.class);
-        SessionService sessionService = mock(SessionService.class);
+        ServiceMovie movieService = mock(MovieService.class);
+        ServiceCountry countryService = mock(CountryService.class);
+        ServiceSession sessionService = mock(SessionService.class);
         when(movieService.add(Mockito.any())).thenReturn(false);
         MovieController movieController =
                 new MovieController(movieService, countryService, sessionService);
@@ -99,9 +102,9 @@ class MovieControllerTest {
                 movie2, "Country Two");
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        MovieService movieService = mock(MovieService.class);
-        CountryService countryService = mock(CountryService.class);
-        SessionService sessionService = mock(SessionService.class);
+        ServiceMovie movieService = mock(MovieService.class);
+        ServiceCountry countryService = mock(CountryService.class);
+        ServiceSession sessionService = mock(SessionService.class);
         when(movieService.findAllWithCountryName()).thenReturn(movies);
         MovieController movieController =
                 new MovieController(movieService, countryService, sessionService);
@@ -120,9 +123,9 @@ class MovieControllerTest {
         );
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        MovieService movieService = mock(MovieService.class);
-        CountryService countryService = mock(CountryService.class);
-        SessionService sessionService = mock(SessionService.class);
+        ServiceMovie movieService = mock(MovieService.class);
+        ServiceCountry countryService = mock(CountryService.class);
+        ServiceSession sessionService = mock(SessionService.class);
         MovieController movieController =
                 new MovieController(movieService, countryService, sessionService);
         when(movieService.findById(1)).thenReturn(input);
@@ -136,9 +139,9 @@ class MovieControllerTest {
         Optional<Movie> input = Optional.empty();
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        MovieService movieService = mock(MovieService.class);
-        CountryService countryService = mock(CountryService.class);
-        SessionService sessionService = mock(SessionService.class);
+        ServiceMovie movieService = mock(MovieService.class);
+        ServiceCountry countryService = mock(CountryService.class);
+        ServiceSession sessionService = mock(SessionService.class);
         MovieController movieController =
                 new MovieController(movieService, countryService, sessionService);
         when(movieService.findById(1)).thenReturn(input);
@@ -153,9 +156,9 @@ class MovieControllerTest {
     public void whenUpdateMovieSuccess() {
         Movie movie = new Movie();
         MultipartFile file = mock(MultipartFile.class);
-        MovieService movieService = mock(MovieService.class);
-        CountryService countryService = mock(CountryService.class);
-        SessionService sessionService = mock(SessionService.class);
+        ServiceMovie movieService = mock(MovieService.class);
+        ServiceCountry countryService = mock(CountryService.class);
+        ServiceSession sessionService = mock(SessionService.class);
         when(movieService.update(Mockito.any())).thenReturn(true);
         MovieController movieController =
                 new MovieController(movieService, countryService, sessionService);
@@ -174,9 +177,9 @@ class MovieControllerTest {
     public void whenUpdateMovieFail() {
         Movie movie = new Movie();
         MultipartFile file = mock(MultipartFile.class);
-        MovieService movieService = mock(MovieService.class);
-        CountryService countryService = mock(CountryService.class);
-        SessionService sessionService = mock(SessionService.class);
+        ServiceMovie movieService = mock(MovieService.class);
+        ServiceCountry countryService = mock(CountryService.class);
+        ServiceSession sessionService = mock(SessionService.class);
         when(movieService.update(Mockito.any())).thenReturn(false);
         MovieController movieController =
                 new MovieController(movieService, countryService, sessionService);
@@ -206,9 +209,9 @@ class MovieControllerTest {
         Optional<Country> country = Optional.of(new Country(1, "Russia"));
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        MovieService movieService = mock(MovieService.class);
-        CountryService countryService = mock(CountryService.class);
-        SessionService sessionService = mock(SessionService.class);
+        ServiceMovie movieService = mock(MovieService.class);
+        ServiceCountry countryService = mock(CountryService.class);
+        ServiceSession sessionService = mock(SessionService.class);
         when(movieService.findById(1)).thenReturn(input);
         when(sessionService.sessionForMovie(input.get().getId())).thenReturn(sessions);
         when(countryService.findById(input.get().getCountryId())).thenReturn(country);
@@ -224,9 +227,9 @@ class MovieControllerTest {
         Optional<Movie> input = Optional.empty();
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        MovieService movieService = mock(MovieService.class);
-        CountryService countryService = mock(CountryService.class);
-        SessionService sessionService = mock(SessionService.class);
+        ServiceMovie movieService = mock(MovieService.class);
+        ServiceCountry countryService = mock(CountryService.class);
+        ServiceSession sessionService = mock(SessionService.class);
         when(movieService.findById(1)).thenReturn(input);
         MovieController movieController =
                 new MovieController(movieService, countryService, sessionService);

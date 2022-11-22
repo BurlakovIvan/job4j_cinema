@@ -1,13 +1,14 @@
-package ru.job4j.cinema.repository;
+package ru.job4j.cinema.repository.classes;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cinema.model.Session;
+import ru.job4j.cinema.repository.SessionStore;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,8 +18,8 @@ import java.util.*;
 @ThreadSafe
 @AllArgsConstructor
 @Repository
-public class SessionRepository {
-    private final BasicDataSource pool;
+public class SessionRepository implements SessionStore {
+    private final DataSource pool;
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionRepository.class.getName());
     private final static String SELECT = """
                                          SELECT s.id AS id, s.movie_id AS movie_id, s.name AS name,
@@ -45,6 +46,7 @@ public class SessionRepository {
                                          VALUES (?, ?)
                                          """;
 
+    @Override
     public Map<Session, String> findAll() {
         Map<Session, String> sessions = new HashMap<>();
         try (Connection cn = pool.getConnection();
@@ -63,6 +65,7 @@ public class SessionRepository {
         return sessions;
     }
 
+    @Override
     public boolean add(Session session) {
         boolean rsl = false;
         try (Connection cn = pool.getConnection();
@@ -77,6 +80,7 @@ public class SessionRepository {
         return rsl;
     }
 
+    @Override
     public boolean update(Session session) {
         boolean rsl = false;
         try (Connection cn = pool.getConnection();
@@ -91,6 +95,7 @@ public class SessionRepository {
         return rsl;
     }
 
+    @Override
     public Optional<Session> findById(int id) {
         Optional<Session> rsl = Optional.empty();
         try (Connection cn = pool.getConnection();
@@ -108,6 +113,7 @@ public class SessionRepository {
         return rsl;
     }
 
+    @Override
     public List<Session> sessionForMovie(int movieID) {
         List<Session> sessions = new ArrayList<>();
         try (Connection cn = pool.getConnection();

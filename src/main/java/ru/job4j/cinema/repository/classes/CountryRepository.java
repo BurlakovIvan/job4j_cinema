@@ -1,13 +1,14 @@
-package ru.job4j.cinema.repository;
+package ru.job4j.cinema.repository.classes;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cinema.model.Country;
+import ru.job4j.cinema.repository.CountryStore;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,8 @@ import java.util.Optional;
 @ThreadSafe
 @AllArgsConstructor
 @Repository
-public class CountryRepository {
-    private final BasicDataSource pool;
+public class CountryRepository implements CountryStore {
+    private final DataSource pool;
     private static final Logger LOGGER = LoggerFactory.getLogger(CountryRepository.class.getName());
     private final static String SELECT = "SELECT * FROM countries";
     private final static String SELECT_WITH_WHERE = String.format("%s WHERE id = ?", SELECT);
@@ -31,6 +32,7 @@ public class CountryRepository {
                                          VALUES (?)
                                          """;
 
+    @Override
     public List<Country> findAll() {
         List<Country> countries = new ArrayList<>();
         try (Connection cn = pool.getConnection();
@@ -47,6 +49,7 @@ public class CountryRepository {
         return countries;
     }
 
+    @Override
     public boolean add(Country country) {
         boolean rsl = false;
         try (Connection cn = pool.getConnection();
@@ -60,6 +63,7 @@ public class CountryRepository {
         return rsl;
     }
 
+    @Override
     public boolean update(Country country) {
         boolean rsl  = false;
         try (Connection cn = pool.getConnection();
@@ -73,6 +77,7 @@ public class CountryRepository {
         return rsl;
     }
 
+    @Override
     public Optional<Country> findById(int id) {
         Optional<Country> rsl = Optional.empty();
         try (Connection cn = pool.getConnection();

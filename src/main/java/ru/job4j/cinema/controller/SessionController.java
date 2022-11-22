@@ -6,11 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.cinema.constant.TypeFailController;
 import ru.job4j.cinema.model.Movie;
-import ru.job4j.cinema.service.SessionService;
-import ru.job4j.cinema.service.TicketService;
+import ru.job4j.cinema.service.ServiceMovie;
+import ru.job4j.cinema.service.ServiceSession;
+import ru.job4j.cinema.service.ServiceTicket;
 import ru.job4j.cinema.util.UserSession;
 import ru.job4j.cinema.model.Session;
-import ru.job4j.cinema.service.MovieService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
@@ -18,9 +18,9 @@ import java.util.Optional;
 @Controller
 @AllArgsConstructor
 public class SessionController implements ControllerClass {
-    private final SessionService sessionService;
-    private final TicketService ticketService;
-    private final MovieService movieService;
+    private final ServiceSession sessionService;
+    private final ServiceTicket ticketService;
+    private final ServiceMovie movieService;
     private static final int TYPE = TypeFailController.SESSION;
 
     @Override

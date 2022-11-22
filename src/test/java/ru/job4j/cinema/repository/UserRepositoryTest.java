@@ -1,12 +1,13 @@
 package ru.job4j.cinema.repository;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ru.job4j.cinema.Main;
 import ru.job4j.cinema.model.User;
+import ru.job4j.cinema.repository.classes.UserRepository;
+import ru.job4j.cinema.util.LoadProperties;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -14,8 +15,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 class UserRepositoryTest {
-    private final static BasicDataSource POOL = new Main().loadPool();
-    private final static UserRepository REPOSITORY = new UserRepository(POOL);
+    private final static DataSource POOL = new LoadProperties().loadPool();
+    private final static UserStore REPOSITORY = new UserRepository(POOL);
     private final static String TRUNCATE = "TRUNCATE TABLE users RESTART IDENTITY;";
 
     @BeforeAll

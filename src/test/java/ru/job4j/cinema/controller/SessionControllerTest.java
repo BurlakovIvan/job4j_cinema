@@ -7,9 +7,12 @@ import ru.job4j.cinema.model.Movie;
 import ru.job4j.cinema.constant.TypeFailController;
 import ru.job4j.cinema.model.Session;
 import ru.job4j.cinema.model.Ticket;
-import ru.job4j.cinema.service.MovieService;
-import ru.job4j.cinema.service.SessionService;
-import ru.job4j.cinema.service.TicketService;
+import ru.job4j.cinema.service.ServiceMovie;
+import ru.job4j.cinema.service.ServiceSession;
+import ru.job4j.cinema.service.ServiceTicket;
+import ru.job4j.cinema.service.classes.MovieService;
+import ru.job4j.cinema.service.classes.SessionService;
+import ru.job4j.cinema.service.classes.TicketService;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
@@ -31,9 +34,9 @@ class SessionControllerTest {
         List<Movie> movies = List.of(movie1, movie2);
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
-        MovieService movieService = mock(MovieService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
+        ServiceMovie movieService = mock(MovieService.class);
         when(movieService.findAll()).thenReturn(movies);
         SessionController sessionController =
                 new SessionController(sessionService, ticketService, movieService);
@@ -44,9 +47,9 @@ class SessionControllerTest {
 
     @Test
     public void whenCreateSessionSuccess() {
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
-        MovieService movieService = mock(MovieService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
+        ServiceMovie movieService = mock(MovieService.class);
         when(sessionService.add(Mockito.any())).thenReturn(true);
         SessionController sessionController =
                 new SessionController(sessionService, ticketService, movieService);
@@ -57,9 +60,9 @@ class SessionControllerTest {
 
     @Test
     public void whenCreateSessionFail() {
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
-        MovieService movieService = mock(MovieService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
+        ServiceMovie movieService = mock(MovieService.class);
         when(sessionService.add(Mockito.any())).thenReturn(false);
         SessionController sessionController =
                 new SessionController(sessionService, ticketService, movieService);
@@ -78,9 +81,9 @@ class SessionControllerTest {
         Map<Session, String> sessions = Map.of(session1, "Movie", session2, "Movie");
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
-        MovieService movieService = mock(MovieService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
+        ServiceMovie movieService = mock(MovieService.class);
         when(sessionService.findAll()).thenReturn(sessions);
         SessionController sessionController =
                 new SessionController(sessionService, ticketService, movieService);
@@ -100,9 +103,9 @@ class SessionControllerTest {
         Optional<Session> input = Optional.of(sessionMovie);
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
-        MovieService movieService = mock(MovieService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
+        ServiceMovie movieService = mock(MovieService.class);
         when(sessionService.findById(1)).thenReturn(input);
         when(movieService.findAll()).thenReturn(movies);
         SessionController sessionController =
@@ -117,9 +120,9 @@ class SessionControllerTest {
         Optional<Session> input = Optional.empty();
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
-        MovieService movieService = mock(MovieService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
+        ServiceMovie movieService = mock(MovieService.class);
         when(sessionService.findById(1)).thenReturn(input);
         SessionController sessionController =
                 new SessionController(sessionService, ticketService, movieService);
@@ -133,9 +136,9 @@ class SessionControllerTest {
 
     @Test
     public void whenUpdateSessionsSuccess() {
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
-        MovieService movieService = mock(MovieService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
+        ServiceMovie movieService = mock(MovieService.class);
         when(sessionService.update(Mockito.any())).thenReturn(true);
         SessionController sessionController =
                 new SessionController(sessionService, ticketService, movieService);
@@ -146,9 +149,9 @@ class SessionControllerTest {
 
     @Test
     public void whenUpdateSessionsFail() {
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
-        MovieService movieService = mock(MovieService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
+        ServiceMovie movieService = mock(MovieService.class);
         when(sessionService.update(Mockito.any())).thenReturn(false);
         SessionController sessionController =
                 new SessionController(sessionService, ticketService, movieService);
@@ -172,9 +175,9 @@ class SessionControllerTest {
         Optional<Session> input = Optional.of(sessionMovie);
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
-        MovieService movieService = mock(MovieService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
+        ServiceMovie movieService = mock(MovieService.class);
         when(sessionService.findById(1)).thenReturn(input);
         when(movieService.findById(input.get().getMovieId())).thenReturn(movieOptional);
         when(ticketService.findTicketForSessionMovie(1)).thenReturn(tickets);
@@ -190,9 +193,9 @@ class SessionControllerTest {
         Optional<Session> input = Optional.empty();
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        SessionService sessionService = mock(SessionService.class);
-        TicketService ticketService = mock(TicketService.class);
-        MovieService movieService = mock(MovieService.class);
+        ServiceSession sessionService = mock(SessionService.class);
+        ServiceTicket ticketService = mock(TicketService.class);
+        ServiceMovie movieService = mock(MovieService.class);
         when(sessionService.findById(1)).thenReturn(input);
         SessionController sessionController =
                 new SessionController(sessionService, ticketService, movieService);
