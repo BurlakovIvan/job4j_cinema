@@ -1,11 +1,10 @@
-package ru.job4j.cinema.service.classes;
+package ru.job4j.cinema.service;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.model.User;
-import ru.job4j.cinema.repository.UserStore;
-import ru.job4j.cinema.service.ServiceUser;
+import ru.job4j.cinema.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +13,8 @@ import java.util.Optional;
 @Service
 @ThreadSafe
 @AllArgsConstructor
-public class UserService implements ServiceUser {
-    private final UserStore userRepository;
+public class SimpleUserService implements UserService {
+    private final UserRepository userRepository;
 
     @Override
     public List<User> findAll() {

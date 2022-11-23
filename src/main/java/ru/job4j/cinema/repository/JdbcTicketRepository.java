@@ -1,4 +1,4 @@
-package ru.job4j.cinema.repository.classes;
+package ru.job4j.cinema.repository;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cinema.constant.NumberCinemaPlace;
 import ru.job4j.cinema.model.Ticket;
-import ru.job4j.cinema.repository.TicketStore;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -20,9 +19,9 @@ import java.util.List;
 @ThreadSafe
 @AllArgsConstructor
 @Repository
-public class TicketRepository implements TicketStore {
+public class JdbcTicketRepository implements TicketRepository {
     private final DataSource pool;
-    private static final Logger LOGGER = LoggerFactory.getLogger(TicketRepository.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcTicketRepository.class.getName());
 
     private final static String INSERT = """
                                          INSERT INTO tickets(session_id, pos_row, cell)

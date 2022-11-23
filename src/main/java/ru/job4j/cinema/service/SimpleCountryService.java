@@ -1,11 +1,10 @@
-package ru.job4j.cinema.service.classes;
+package ru.job4j.cinema.service;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.model.Country;
-import ru.job4j.cinema.repository.CountryStore;
-import ru.job4j.cinema.service.ServiceCountry;
+import ru.job4j.cinema.repository.CountryRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +12,8 @@ import java.util.Optional;
 @Service
 @ThreadSafe
 @AllArgsConstructor
-public class CountryService implements ServiceCountry {
-    private final CountryStore countryRepository;
+public class SimpleCountryService implements CountryService {
+    private final CountryRepository countryRepository;
 
     @Override
     public List<Country> findAll() {

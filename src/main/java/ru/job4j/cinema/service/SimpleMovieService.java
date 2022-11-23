@@ -1,11 +1,10 @@
-package ru.job4j.cinema.service.classes;
+package ru.job4j.cinema.service;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.model.Movie;
-import ru.job4j.cinema.repository.MovieStore;
-import ru.job4j.cinema.service.ServiceMovie;
+import ru.job4j.cinema.repository.MovieRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -14,8 +13,8 @@ import java.util.Optional;
 @Service
 @ThreadSafe
 @AllArgsConstructor
-public class MovieService implements ServiceMovie {
-    private final MovieStore movieRepository;
+public class SimpleMovieService implements MovieService {
+    private final MovieRepository movieRepository;
 
     @Override
     public Map<Movie, String> findAllWithCountryName() {

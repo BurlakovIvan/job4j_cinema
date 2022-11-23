@@ -5,8 +5,8 @@ import org.mockito.Mockito;
 import org.springframework.ui.Model;
 import ru.job4j.cinema.constant.TypeFailController;
 import ru.job4j.cinema.model.User;
-import ru.job4j.cinema.service.ServiceUser;
-import ru.job4j.cinema.service.classes.UserService;
+import ru.job4j.cinema.service.UserService;
+import ru.job4j.cinema.service.SimpleUserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,7 +22,7 @@ class UserControllerTest {
     public void whenAddUser() {
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        ServiceUser userService = mock(UserService.class);
+        UserService userService = mock(SimpleUserService.class);
         UserController userController = new UserController(userService);
         String page = userController.formAdd(model, session);
         assertThat(page).isEqualTo("addUser");
@@ -33,7 +33,7 @@ class UserControllerTest {
         User user = new User(1, "Name", "Password", "email");
         Optional<User> input = Optional.of(user);
         HttpSession session = mock(HttpSession.class);
-        ServiceUser userService = mock(UserService.class);
+        UserService userService = mock(SimpleUserService.class);
         UserController userController = new UserController(userService);
         when(userService.add(user)).thenReturn(input);
         String page = userController.registration(user, session);
@@ -46,7 +46,7 @@ class UserControllerTest {
         User user = new User(1, "Name", "Password", "email");
         Optional<User> input = Optional.empty();
         HttpSession session = mock(HttpSession.class);
-        ServiceUser userService = mock(UserService.class);
+        UserService userService = mock(SimpleUserService.class);
         UserController userController = new UserController(userService);
         when(userService.add(user)).thenReturn(input);
         String page = userController.registration(user, session);
@@ -61,7 +61,7 @@ class UserControllerTest {
     public void whenFindAllUsers() {
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        ServiceUser userService = mock(UserService.class);
+        UserService userService = mock(SimpleUserService.class);
         UserController userController = new UserController(userService);
         String page = userController.lists(model, session);
         assertThat(page).isEqualTo("index");
@@ -70,7 +70,7 @@ class UserControllerTest {
     @Test
     public void whenLoginPageRedirect() {
         Model model = mock(Model.class);
-        ServiceUser userService = mock(UserService.class);
+        UserService userService = mock(SimpleUserService.class);
         UserController userController = new UserController(userService);
         String page = userController.loginPage(model, false);
         assertThat(page).isEqualTo("login");
@@ -82,7 +82,7 @@ class UserControllerTest {
         Optional<User> input = Optional.of(user);
         HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
         HttpSession session = mock(HttpSession.class);
-        ServiceUser userService = mock(UserService.class);
+        UserService userService = mock(SimpleUserService.class);
         when(userService.findUserByEmailAndPwd(
                 user.getEmail(), user.getPassword()
         )).thenReturn(input);
@@ -98,7 +98,7 @@ class UserControllerTest {
         User user = new User(1, "Name", "Password", "email");
         Optional<User> input = Optional.empty();
         HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
-        ServiceUser userService = mock(UserService.class);
+        UserService userService = mock(SimpleUserService.class);
         when(userService.findUserByEmailAndPwd(
                 user.getEmail(), user.getPassword()
         )).thenReturn(input);
@@ -111,7 +111,7 @@ class UserControllerTest {
     @Test
     public void whenLoginOut() {
         HttpSession session = mock(HttpSession.class);
-        ServiceUser userService = mock(UserService.class);
+        UserService userService = mock(SimpleUserService.class);
         UserController userController = new UserController(userService);
         String page = userController.logout(session);
         assertThat(page).isEqualTo("redirect:/loginPage");

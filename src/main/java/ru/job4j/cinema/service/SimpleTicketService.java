@@ -1,19 +1,18 @@
-package ru.job4j.cinema.service.classes;
+package ru.job4j.cinema.service;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.model.Ticket;
-import ru.job4j.cinema.repository.TicketStore;
-import ru.job4j.cinema.service.ServiceTicket;
+import ru.job4j.cinema.repository.TicketRepository;
 
 import java.util.List;
 
 @Service
 @ThreadSafe
 @AllArgsConstructor
-public class TicketService implements ServiceTicket {
-    private final TicketStore ticketRepository;
+public class SimpleTicketService implements TicketService {
+    private final TicketRepository ticketRepository;
 
     @Override
     public boolean add(int ticketID) {

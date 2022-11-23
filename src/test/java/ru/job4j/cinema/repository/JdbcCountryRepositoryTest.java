@@ -2,7 +2,6 @@ package ru.job4j.cinema.repository;
 
 import org.junit.jupiter.api.*;
 import ru.job4j.cinema.model.Country;
-import ru.job4j.cinema.repository.classes.CountryRepository;
 import ru.job4j.cinema.util.LoadProperties;
 
 import javax.sql.DataSource;
@@ -12,10 +11,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class CountryRepositoryTest {
+public class JdbcCountryRepositoryTest {
 
     private final static DataSource POOL = new LoadProperties().loadPool();
-    private final static CountryStore REPOSITORY = new CountryRepository(POOL);
+    private final static CountryRepository REPOSITORY = new JdbcCountryRepository(POOL);
     private final static String TRUNCATE = "TRUNCATE TABLE countries RESTART IDENTITY;";
 
     @BeforeAll

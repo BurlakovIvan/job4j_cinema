@@ -3,8 +3,6 @@ package ru.job4j.cinema.repository;
 import org.junit.jupiter.api.*;
 import ru.job4j.cinema.model.Country;
 import ru.job4j.cinema.model.Movie;
-import ru.job4j.cinema.repository.classes.CountryRepository;
-import ru.job4j.cinema.repository.classes.MovieRepository;
 import ru.job4j.cinema.util.LoadProperties;
 
 import javax.sql.DataSource;
@@ -16,9 +14,9 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
-class MovieRepositoryTest {
+class JdbcMovieRepositoryTest {
     private final static DataSource POOL = new LoadProperties().loadPool();
-    private final static MovieStore REPOSITORY = new MovieRepository(POOL);
+    private final static MovieRepository REPOSITORY = new JdbcMovieRepository(POOL);
     private final static String TRUNCATE = "TRUNCATE TABLE %s RESTART IDENTITY;";
 
     @BeforeAll
@@ -33,7 +31,7 @@ class MovieRepositoryTest {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        CountryRepository repositoryCountry = new CountryRepository(POOL);
+        JdbcCountryRepository repositoryCountry = new JdbcCountryRepository(POOL);
         Country country = new Country(1, "Country");
         repositoryCountry.add(country);
     }

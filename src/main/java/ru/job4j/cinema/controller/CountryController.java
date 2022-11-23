@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.cinema.constant.TypeFailController;
 import ru.job4j.cinema.model.Country;
-import ru.job4j.cinema.service.ServiceCountry;
+import ru.job4j.cinema.service.CountryService;
 import ru.job4j.cinema.util.UserSession;
 
 import javax.servlet.http.HttpSession;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @Controller
 @AllArgsConstructor
 public class CountryController implements ControllerClass {
-    private final ServiceCountry countryService;
+    private final CountryService countryService;
     private static final int TYPE = TypeFailController.COUNTRY;
 
     @Override

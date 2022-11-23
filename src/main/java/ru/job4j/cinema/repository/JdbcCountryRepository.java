@@ -1,4 +1,4 @@
-package ru.job4j.cinema.repository.classes;
+package ru.job4j.cinema.repository;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cinema.model.Country;
-import ru.job4j.cinema.repository.CountryStore;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -17,9 +16,9 @@ import java.util.Optional;
 @ThreadSafe
 @AllArgsConstructor
 @Repository
-public class CountryRepository implements CountryStore {
+public class JdbcCountryRepository implements CountryRepository {
     private final DataSource pool;
-    private static final Logger LOGGER = LoggerFactory.getLogger(CountryRepository.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcCountryRepository.class.getName());
     private final static String SELECT = "SELECT * FROM countries";
     private final static String SELECT_WITH_WHERE = String.format("%s WHERE id = ?", SELECT);
     private final static String UPDATE = """

@@ -1,4 +1,4 @@
-package ru.job4j.cinema.repository.classes;
+package ru.job4j.cinema.repository;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cinema.model.Movie;
-import ru.job4j.cinema.repository.MovieStore;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -15,10 +14,10 @@ import java.util.*;
 @ThreadSafe
 @AllArgsConstructor
 @Repository
-public class MovieRepository implements MovieStore {
+public class JdbcMovieRepository implements MovieRepository {
 
     private final DataSource pool;
-    private static final Logger LOGGER = LoggerFactory.getLogger(MovieRepository.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcMovieRepository.class.getName());
     private final static String SELECT = "SELECT * FROM movies";
 
     private final static String SELECT_AND_COUNTRY_NAME = """

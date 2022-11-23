@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.job4j.cinema.model.User;
-import ru.job4j.cinema.repository.classes.UserRepository;
 import ru.job4j.cinema.util.LoadProperties;
 
 import javax.sql.DataSource;
@@ -14,9 +13,9 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-class UserRepositoryTest {
+class JdbcUserRepositoryTest {
     private final static DataSource POOL = new LoadProperties().loadPool();
-    private final static UserStore REPOSITORY = new UserRepository(POOL);
+    private final static UserRepository REPOSITORY = new JdbcUserRepository(POOL);
     private final static String TRUNCATE = "TRUNCATE TABLE users RESTART IDENTITY;";
 
     @BeforeAll

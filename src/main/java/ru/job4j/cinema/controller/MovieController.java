@@ -15,9 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cinema.constant.TypeFailController;
 import ru.job4j.cinema.model.Country;
 import ru.job4j.cinema.model.Movie;
-import ru.job4j.cinema.service.ServiceCountry;
-import ru.job4j.cinema.service.ServiceMovie;
-import ru.job4j.cinema.service.ServiceSession;
+import ru.job4j.cinema.service.CountryService;
+import ru.job4j.cinema.service.MovieService;
+import ru.job4j.cinema.service.SessionService;
 import ru.job4j.cinema.util.UserSession;
 
 import javax.servlet.http.HttpSession;
@@ -29,9 +29,9 @@ import java.util.Optional;
 @ThreadSafe
 @AllArgsConstructor
 public class MovieController implements ControllerClass {
-    private final ServiceMovie movieService;
-    private final ServiceCountry countryService;
-    private final ServiceSession sessionService;
+    private final MovieService movieService;
+    private final CountryService countryService;
+    private final SessionService sessionService;
     private static final int TYPE = TypeFailController.MOVIE;
 
     @Override

@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.ui.Model;
 import ru.job4j.cinema.model.Movie;
 import ru.job4j.cinema.model.Session;
-import ru.job4j.cinema.service.ServiceMovie;
-import ru.job4j.cinema.service.ServiceSession;
-import ru.job4j.cinema.service.classes.MovieService;
-import ru.job4j.cinema.service.classes.SessionService;
+import ru.job4j.cinema.service.MovieService;
+import ru.job4j.cinema.service.SessionService;
+import ru.job4j.cinema.service.SimpleMovieService;
+import ru.job4j.cinema.service.SimpleSessionService;
 
 import javax.servlet.http.HttpSession;
 
@@ -32,8 +32,8 @@ class IndexControlTest {
         Map<Session, String> sessions = Map.of(session1, "Movie", session2, "Movie Two");
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        ServiceMovie movieService = mock(MovieService.class);
-        ServiceSession sessionService = mock(SessionService.class);
+        MovieService movieService = mock(SimpleMovieService.class);
+        SessionService sessionService = mock(SimpleSessionService.class);
         when(movieService.findAllWithCountryName()).thenReturn(movies);
         when(sessionService.findAll()).thenReturn(sessions);
         IndexControl indexControl = new IndexControl(movieService, sessionService);

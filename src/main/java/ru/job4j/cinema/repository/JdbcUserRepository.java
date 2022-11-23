@@ -1,4 +1,4 @@
-package ru.job4j.cinema.repository.classes;
+package ru.job4j.cinema.repository;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cinema.model.User;
-import ru.job4j.cinema.repository.UserStore;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -17,9 +16,9 @@ import java.util.Optional;
 @ThreadSafe
 @AllArgsConstructor
 @Repository
-public class UserRepository implements UserStore {
+public class JdbcUserRepository implements UserRepository {
     private final DataSource pool;
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserRepository.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcUserRepository.class.getName());
     private final static String SELECT = "SELECT * FROM users";
     private final static String SELECT_ID = String.format("%s WHERE id = ?", SELECT);
     private final static String SELECT_EMAIL_PASSWORD =

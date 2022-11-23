@@ -1,4 +1,4 @@
-package ru.job4j.cinema.repository.classes;
+package ru.job4j.cinema.repository;
 
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cinema.model.Session;
-import ru.job4j.cinema.repository.SessionStore;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -18,9 +17,9 @@ import java.util.*;
 @ThreadSafe
 @AllArgsConstructor
 @Repository
-public class SessionRepository implements SessionStore {
+public class JdbcSessionRepository implements SessionRepository {
     private final DataSource pool;
-    private static final Logger LOGGER = LoggerFactory.getLogger(SessionRepository.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcSessionRepository.class.getName());
     private final static String SELECT = """
                                          SELECT s.id AS id, s.movie_id AS movie_id, s.name AS name,
                                           m.name AS movieName

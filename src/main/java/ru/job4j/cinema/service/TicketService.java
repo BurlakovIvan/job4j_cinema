@@ -1,10 +1,10 @@
-package ru.job4j.cinema.repository;
+package ru.job4j.cinema.service;
 
 import ru.job4j.cinema.model.Ticket;
 
 import java.util.List;
 
-public interface TicketStore {
+public interface TicketService {
 
     boolean add(int ticketID);
 

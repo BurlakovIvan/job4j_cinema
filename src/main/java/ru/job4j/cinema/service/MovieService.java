@@ -1,4 +1,4 @@
-package ru.job4j.cinema.repository;
+package ru.job4j.cinema.service;
 
 import ru.job4j.cinema.model.Movie;
 
@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public interface MovieStore {
+public interface MovieService {
+
     Map<Movie, String> findAllWithCountryName();
 
     List<Movie> findAll();
@@ -15,8 +16,5 @@ public interface MovieStore {
 
     Optional<Movie> findById(int id);
 
-    boolean updateWithPhoto(Movie movie);
-
-    boolean updateWithoutPhoto(Movie movie);
-
+    boolean update(Movie movie);
 }

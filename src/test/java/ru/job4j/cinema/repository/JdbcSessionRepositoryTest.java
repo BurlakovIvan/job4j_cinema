@@ -6,8 +6,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.job4j.cinema.model.Movie;
 import ru.job4j.cinema.model.Session;
-import ru.job4j.cinema.repository.classes.MovieRepository;
-import ru.job4j.cinema.repository.classes.SessionRepository;
 import ru.job4j.cinema.util.LoadProperties;
 
 import javax.sql.DataSource;
@@ -19,9 +17,9 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
-class SessionRepositoryTest {
+class JdbcSessionRepositoryTest {
     private final static DataSource POOL = new LoadProperties().loadPool();
-    private final static SessionStore REPOSITORY = new SessionRepository(POOL);
+    private final static SessionRepository REPOSITORY = new JdbcSessionRepository(POOL);
     private final static String TRUNCATE = "TRUNCATE TABLE %s RESTART IDENTITY;";
 
     @BeforeAll
@@ -36,13 +34,13 @@ class SessionRepositoryTest {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        MovieRepository movieRepository = new MovieRepository(POOL);
+        JdbcMovieRepository jdbcMovieRepository = new JdbcMovieRepository(POOL);
         Movie movie = new Movie(1, "Movie1",
                 "Description1", LocalDate.now(), 1, null);
-        movieRepository.add(movie);
+        jdbcMovieRepository.add(movie);
         Movie movie1 = new Movie(2, "Movie2",
                 "Description2", LocalDate.now(), 1, null);
-        movieRepository.add(movie1);
+        jdbcMovieRepository.add(movie1);
     }
 
     @Test

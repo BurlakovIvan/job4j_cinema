@@ -5,8 +5,8 @@ import org.mockito.Mockito;
 import org.springframework.ui.Model;
 import ru.job4j.cinema.constant.TypeFailController;
 import ru.job4j.cinema.model.Country;
-import ru.job4j.cinema.service.ServiceCountry;
-import ru.job4j.cinema.service.classes.CountryService;
+import ru.job4j.cinema.service.CountryService;
+import ru.job4j.cinema.service.SimpleCountryService;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,7 +22,7 @@ class CountryControllerTest {
     @Test
     public void whenAddCountry() {
         Model model = mock(Model.class);
-        ServiceCountry countryService = mock(CountryService.class);
+        CountryService countryService = mock(SimpleCountryService.class);
         HttpSession session = mock(HttpSession.class);
         CountryController countryController = new CountryController(countryService);
         String page = countryController.formAdd(model, session);
@@ -32,7 +32,7 @@ class CountryControllerTest {
     @Test
     public void whenCreateCountrySuccess() {
         Country input = new Country(1, "New Country");
-        ServiceCountry countryService = mock(CountryService.class);
+        CountryService countryService = mock(SimpleCountryService.class);
         CountryController countryController = new CountryController(countryService);
         when(countryService.add(input)).thenReturn(true);
         String page = countryController.createCountry(input);
@@ -43,7 +43,7 @@ class CountryControllerTest {
     @Test
     public void whenCreateCountryFail() {
         Country input = new Country(1, "New Country");
-        ServiceCountry countryService = mock(CountryService.class);
+        CountryService countryService = mock(SimpleCountryService.class);
         CountryController countryController = new CountryController(countryService);
         when(countryService.add(input)).thenReturn(false);
         String page = countryController.createCountry(input);
@@ -62,7 +62,7 @@ class CountryControllerTest {
         );
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        ServiceCountry countryService = mock(CountryService.class);
+        CountryService countryService = mock(SimpleCountryService.class);
         when(countryService.findAll()).thenReturn(countries);
         CountryController countryController = new CountryController(countryService);
         String page = countryController.lists(model, session);
@@ -76,7 +76,7 @@ class CountryControllerTest {
         Optional<Country> countryResult = Optional.of(country);
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        ServiceCountry countryService = mock(CountryService.class);
+        CountryService countryService = mock(SimpleCountryService.class);
         when(countryService.findById(1)).thenReturn(countryResult);
         CountryController countryController = new CountryController(countryService);
         String page = countryController.formUpdateCountry(model, 1, session);
@@ -89,7 +89,7 @@ class CountryControllerTest {
         Optional<Country> countryResult = Optional.empty();
         Model model = mock(Model.class);
         HttpSession session = mock(HttpSession.class);
-        ServiceCountry countryService = mock(CountryService.class);
+        CountryService countryService = mock(SimpleCountryService.class);
         when(countryService.findById(1)).thenReturn(countryResult);
         CountryController countryController = new CountryController(countryService);
         String page = countryController.formUpdateCountry(model, 1, session);
@@ -103,7 +103,7 @@ class CountryControllerTest {
     @Test
     public void whenUpdateCountrySuccess() {
         Country input = new Country(1, "New Country");
-        ServiceCountry countryService = mock(CountryService.class);
+        CountryService countryService = mock(SimpleCountryService.class);
         when(countryService.update(input)).thenReturn(true);
         CountryController countryController = new CountryController(countryService);
         String page = countryController.updateCountry(input);
@@ -114,7 +114,7 @@ class CountryControllerTest {
     @Test
     public void whenUpdateCountryFail() {
         Country input = new Country(1, "New Country");
-        ServiceCountry countryService = mock(CountryService.class);
+        CountryService countryService = mock(SimpleCountryService.class);
         when(countryService.update(input)).thenReturn(false);
         CountryController countryController = new CountryController(countryService);
         String page = countryController.updateCountry(input);

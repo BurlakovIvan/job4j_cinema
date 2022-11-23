@@ -10,10 +10,6 @@ import ru.job4j.cinema.model.Movie;
 import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.model.Session;
-import ru.job4j.cinema.repository.classes.MovieRepository;
-import ru.job4j.cinema.repository.classes.SessionRepository;
-import ru.job4j.cinema.repository.classes.TicketRepository;
-import ru.job4j.cinema.repository.classes.UserRepository;
 import ru.job4j.cinema.util.LoadProperties;
 
 import javax.sql.DataSource;
@@ -23,9 +19,9 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.*;
 
-class TicketRepositoryTest {
+class JdbcTicketRepositoryTest {
     private final static DataSource POOL = new LoadProperties().loadPool();
-    private final static TicketStore REPOSITORY = new TicketRepository(POOL);
+    private final static TicketRepository REPOSITORY = new JdbcTicketRepository(POOL);
     private final static String TRUNCATE = "TRUNCATE TABLE %s RESTART IDENTITY;";
 
     @BeforeAll
@@ -40,18 +36,18 @@ class TicketRepositoryTest {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        MovieRepository movieRepository = new MovieRepository(POOL);
+        JdbcMovieRepository jdbcMovieRepository = new JdbcMovieRepository(POOL);
         Movie movie = new Movie(1, "Movie1",
                 "Description1", LocalDate.now(), 1, null);
-        movieRepository.add(movie);
-        SessionRepository sessionRepository = new SessionRepository(POOL);
+        jdbcMovieRepository.add(movie);
+        JdbcSessionRepository jdbcSessionRepository = new JdbcSessionRepository(POOL);
         Session session1 = new Session(1, 1, "Session1");
-        sessionRepository.add(session1);
+        jdbcSessionRepository.add(session1);
         Session session2 = new Session(2, 1, "Session2");
-        sessionRepository.add(session2);
-        UserRepository userRepository = new UserRepository(POOL);
+        jdbcSessionRepository.add(session2);
+        JdbcUserRepository jdbcUserRepository = new JdbcUserRepository(POOL);
         User user = new User(1, "User", "password", "email");
-        userRepository.add(user);
+        jdbcUserRepository.add(user);
     }
 
     @Test
