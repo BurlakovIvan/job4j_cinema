@@ -105,7 +105,7 @@ public class MovieController implements ControllerClass {
             result = ResponseEntity.ok()
                     .headers(new HttpHeaders())
                     .contentLength(movie.get().getPhoto().length)
-                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(new ByteArrayResource(movie.get().getPhoto()));
         }
         return result;
