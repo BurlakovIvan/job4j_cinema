@@ -8,10 +8,22 @@ import org.springframework.context.annotation.PropertySource;
 
 import javax.sql.DataSource;
 
+/**
+ * Класс конфигурирования
+ * @author Burlakov
+ */
 @Configuration
 @PropertySource("classpath:db.properties")
 public class DataSourceConfig {
 
+    /**
+     * загрузка пула
+     * @param driver jdbc.driver
+     * @param url jdbc.url
+     * @param username jdbc.username
+     * @param password jdbc.password
+     * @return пул подключений
+     */
     @Bean
     public DataSource loadPool(@Value("${jdbc.driver}") String driver,
                                @Value("${jdbc.url}") String url,

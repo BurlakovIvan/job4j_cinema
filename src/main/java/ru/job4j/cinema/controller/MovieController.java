@@ -1,7 +1,6 @@
 package ru.job4j.cinema.controller;
 
 import lombok.AllArgsConstructor;
-import net.jcip.annotations.ThreadSafe;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,8 +24,11 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 
+/**
+ * Контроллер. Фильм
+ * @author Burlakov
+ */
 @Controller
-@ThreadSafe
 @AllArgsConstructor
 public class MovieController implements ControllerClass {
     private final MovieService movieService;
@@ -34,6 +36,12 @@ public class MovieController implements ControllerClass {
     private final SessionService sessionService;
     private static final int TYPE = TypeFailController.MOVIE;
 
+    /**
+     * форма добавления записи
+     * @param model Model
+     * @param session HttpSession
+     * @return addMovie
+     */
     @Override
     @GetMapping("/formAddMovie")
     public String formAdd(Model model, HttpSession session) {
@@ -44,6 +52,14 @@ public class MovieController implements ControllerClass {
         return "addMovie";
     }
 
+    /**
+     * создание новой записи
+     * @param movie ModelAttribute Movie
+     * @param file постер
+     * @param createdDate дата премьеры фильма
+     * @return redirect:/movies если успешно, failRedirect в противном случае
+     * @throws IOException ошибка преобразования фото
+     */
     @PostMapping("/createMovie")
     public String createMovie(@ModelAttribute Movie movie,
                               @RequestParam("file") MultipartFile file,
@@ -59,6 +75,12 @@ public class MovieController implements ControllerClass {
         return redirect;
     }
 
+    /**
+     * вывод списка всех записей
+     * @param model Model
+     * @param session HttpSession
+     * @return movies
+     */
     @Override
     @GetMapping("/movies")
     public String lists(Model model, HttpSession session) {
@@ -67,6 +89,13 @@ public class MovieController implements ControllerClass {
         return "movies";
     }
 
+    /**
+     * форма редактирования записи
+     * @param model Model
+     * @param id  идентификатор фильма
+     * @param session session
+     * @return updateMovie если успешно, failRedirect в противном случае
+     */
     @GetMapping("/formUpdateMovie/{movieId}")
     public String formUpdateMovie(Model model, @PathVariable("movieId") int id, HttpSession session) {
         model.addAttribute("user", UserSession.user(session));
@@ -81,6 +110,14 @@ public class MovieController implements ControllerClass {
         return redirect;
     }
 
+    /**
+     * обновление записи после редактирования
+     * @param movie ModelAttribute Movie
+     * @param file постер
+     * @param createdDate дата премьеры фильма
+     * @return redirect:/movies если успешно, failRedirect в противном случае
+     * @throws IOException ошибка получения постера
+     */
     @PostMapping("/updateMovie")
     public String updateMovie(@ModelAttribute Movie movie,
                               @RequestParam("file") MultipartFile file,
@@ -97,6 +134,11 @@ public class MovieController implements ControllerClass {
         return redirect;
     }
 
+    /**
+     * загрузка постера
+     * @param movieId идентификатор фильма
+     * @return ResponseEntity
+     */
     @GetMapping("/photoMovie/{movieId}")
     public ResponseEntity<Resource> download(@PathVariable("movieId") Integer movieId) {
         Optional<Movie> movie = movieService.findById(movieId);
@@ -111,6 +153,13 @@ public class MovieController implements ControllerClass {
         return result;
     }
 
+    /**
+     * форма описания
+     * @param model Model
+     * @param movieId идентификатор фильма
+     * @param session Model
+     * @return movie если успешно, failRedirect в противном случае
+     */
     @GetMapping("/theMovie/{movieId}")
     public String theMovie(Model model,
                            @PathVariable("movieId") Integer movieId, HttpSession session) {

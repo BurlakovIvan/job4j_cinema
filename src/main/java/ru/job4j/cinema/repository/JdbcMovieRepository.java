@@ -11,6 +11,11 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Класс репозитория - фильм
+ * Потокобезопасен за счет singleton и обработки запроса на стороне SQL
+ * @author Burlakov
+ */
 @ThreadSafe
 @AllArgsConstructor
 @Repository
@@ -41,6 +46,10 @@ public class JdbcMovieRepository implements MovieRepository {
                                          VALUES (?, ?, ?, ?, ?)
                                          """;
 
+    /**
+     * все фильмы вместе с названиями стран производства
+     * @return Map от Movie(ключ) и название страны(значение)
+     */
     @Override
     public Map<Movie, String> findAllWithCountryName() {
         Map<Movie, String> movies = new HashMap<>();
@@ -60,6 +69,10 @@ public class JdbcMovieRepository implements MovieRepository {
         return movies;
     }
 
+    /**
+     * список всех фильмов
+     * @return List Movie
+     */
     @Override
     public List<Movie> findAll() {
         List<Movie> movies = new ArrayList<>();
@@ -77,6 +90,11 @@ public class JdbcMovieRepository implements MovieRepository {
         return movies;
     }
 
+    /**
+     * добавление нового фильма
+     * @param movie фильм
+     * @return истина если успешно, иначе ложь
+     */
     @Override
     public boolean add(Movie movie) {
         boolean rsl = false;
@@ -96,6 +114,11 @@ public class JdbcMovieRepository implements MovieRepository {
         return rsl;
     }
 
+    /**
+     * обновление фильма вместе с постером
+     * @param movie фильм
+     * @return истина если успешно, иначе ложь
+     */
     @Override
     public boolean updateWithPhoto(Movie movie) {
         boolean rsl = false;
@@ -115,6 +138,11 @@ public class JdbcMovieRepository implements MovieRepository {
         return rsl;
     }
 
+    /**
+     * обновление фильма без постера
+     * @param movie фильм
+     * @return истина если успешно, иначе ложь
+     */
     @Override
     public boolean updateWithoutPhoto(Movie movie) {
         boolean rsl = false;
@@ -133,6 +161,11 @@ public class JdbcMovieRepository implements MovieRepository {
         return rsl;
     }
 
+    /**
+     * поиск записи по идентификатору
+     * @param id идентификатор фильма
+     * @return Optional от Movie
+     */
     @Override
     public Optional<Movie> findById(int id) {
         Optional<Movie> rsl = Optional.empty();
@@ -151,6 +184,12 @@ public class JdbcMovieRepository implements MovieRepository {
         return rsl;
     }
 
+    /**
+     * приватный метод создания нового объекта типа фильм
+     * @param resultSet результат запроса
+     * @return новый объект типа фильм
+     * @throws SQLException ошибка
+     */
     private Movie newMovie(ResultSet resultSet) throws SQLException {
         return new Movie(
                 resultSet.getInt("id"),

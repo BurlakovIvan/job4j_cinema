@@ -1,7 +1,6 @@
 package ru.job4j.cinema.controller;
 
 import lombok.AllArgsConstructor;
-import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,14 +14,23 @@ import ru.job4j.cinema.model.Session;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * Контроллер. Билет
+ * @author Burlakov
+ */
 @Controller
-@ThreadSafe
 @AllArgsConstructor
 public class TicketController implements ControllerClass {
     private final TicketService ticketService;
     private final SessionService sessionService;
     private static final int TYPE = TypeFailController.TICKET;
 
+    /**
+     * форма добавление новой записи
+     * @param model Model
+     * @param session HttpSession
+     * @return addTicket
+     */
     @Override
     @GetMapping("/formAddTicket")
     public String formAdd(Model model, HttpSession session) {
@@ -32,6 +40,11 @@ public class TicketController implements ControllerClass {
         return "addTicket";
     }
 
+    /**
+     * добавление новой записи
+     * @param ticket билет
+     * @return redirect:/index если успешно, failRedirect в противном случае
+     */
     @PostMapping("/createTicket")
     public String createTicket(@ModelAttribute Ticket ticket) {
         boolean result = ticketService.add(ticket.getSessionId());
@@ -42,6 +55,12 @@ public class TicketController implements ControllerClass {
         return redirect;
     }
 
+    /**
+     * вывод списка всех записей
+     * @param model Model
+     * @param session HttpSession
+     * @return index
+     */
     @Override
     @GetMapping("/tickets")
     public String lists(Model model, HttpSession session) {
@@ -56,6 +75,14 @@ public class TicketController implements ControllerClass {
         return "index";
     }
 
+    /**
+     * выбор места
+     * @param model Model
+     * @param posRow ряд
+     * @param cell место
+     * @param session HttpSession
+     * @return login если пользователь не задан, иначе buy
+     */
     @PostMapping("/thisPlace/{posRow}/{cell}")
     public String thisPlace(Model model, @PathVariable("posRow") int posRow,
                             @PathVariable("cell") int cell, HttpSession session) {
@@ -73,6 +100,12 @@ public class TicketController implements ControllerClass {
         return "buy";
     }
 
+    /**
+     * покупка билета
+     * @param model Model
+     * @param session HttpSession
+     * @return success если успешно, failRedirect в противном случае
+     */
     @GetMapping("/buyTicket")
     public String buyTicket(Model model, HttpSession session) {
         Session sessionMovie = (Session) session.getAttribute("session");
@@ -90,6 +123,12 @@ public class TicketController implements ControllerClass {
         return redirect;
     }
 
+    /**
+     * ошибка при покупке
+     * @param model Model
+     * @param session HttpSession
+     * @return place
+     */
     @GetMapping("/failRedirectTicket")
     public String failRedirectTicket(Model model, HttpSession session) {
         model.addAttribute("user", UserSession.user(session));
@@ -99,11 +138,19 @@ public class TicketController implements ControllerClass {
         return "place";
     }
 
+    /**
+     * нажали кнопку отмена, при ошибке
+     * @return redirect:/index
+     */
     @GetMapping("/cancel")
     public String cancel() {
         return "redirect:/index";
     }
 
+    /**
+     * нажали кнопку ОК при ошибке
+     * @return redirect:/index
+     */
     @PostMapping("/success")
     public String success() {
         return "redirect:/index";

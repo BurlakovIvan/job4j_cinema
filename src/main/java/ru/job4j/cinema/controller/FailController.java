@@ -1,7 +1,6 @@
 package ru.job4j.cinema.controller;
 
 import lombok.AllArgsConstructor;
-import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +11,22 @@ import ru.job4j.cinema.constant.TypeFailController;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * Контроллер. Ошибка
+ * @author Burlakov
+ */
 @Controller
-@ThreadSafe
 @AllArgsConstructor
 public class FailController {
 
+    /**
+     * форма ошибки
+     * @param model Model
+     * @param type тип страницы
+     * @param message сообщение об ошибки
+     * @param session HttpSession
+     * @return fail
+     */
     @GetMapping("/fail")
     public String fail(Model model,
                        @RequestParam(name = "type") int type,
@@ -28,6 +38,11 @@ public class FailController {
         return "fail";
     }
 
+    /**
+     * страница после вывода ошибки
+     * @param type тип страницы
+     * @return в зависимости от типа (formAddUser, countries, movies, sessions, index)
+     */
     @PostMapping("/failRedirect")
     public String failRedirect(@RequestParam("type") int type) {
         return switch (type) {

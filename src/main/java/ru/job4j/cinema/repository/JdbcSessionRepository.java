@@ -14,6 +14,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * Класс репозитория - сеанс
+ * Потокобезопасен за счет singleton и обработки запроса на стороне SQL
+ * @author Burlakov
+ */
 @ThreadSafe
 @AllArgsConstructor
 @Repository
@@ -45,6 +50,10 @@ public class JdbcSessionRepository implements SessionRepository {
                                          VALUES (?, ?)
                                          """;
 
+    /**
+     * список всех сеансов с названиями фильмов
+     * @return Map от Session(ключ) и название фильма(значение)
+     */
     @Override
     public Map<Session, String> findAll() {
         Map<Session, String> sessions = new HashMap<>();
@@ -64,6 +73,11 @@ public class JdbcSessionRepository implements SessionRepository {
         return sessions;
     }
 
+    /**
+     * добавление нового сеанса
+     * @param session сеанс
+     * @return истина если успешно, иначе ложь
+     */
     @Override
     public boolean add(Session session) {
         boolean rsl = false;
@@ -79,6 +93,11 @@ public class JdbcSessionRepository implements SessionRepository {
         return rsl;
     }
 
+    /**
+     * обновление сеанса
+     * @param session сеанс
+     * @return истина если успешно, иначе ложь
+     */
     @Override
     public boolean update(Session session) {
         boolean rsl = false;
@@ -94,6 +113,11 @@ public class JdbcSessionRepository implements SessionRepository {
         return rsl;
     }
 
+    /**
+     * поиск записи по идентификатору
+     * @param id идентификатор сеанса
+     * @return Optional от Session
+     */
     @Override
     public Optional<Session> findById(int id) {
         Optional<Session> rsl = Optional.empty();
@@ -112,6 +136,11 @@ public class JdbcSessionRepository implements SessionRepository {
         return rsl;
     }
 
+    /**
+     * список сеансов фильма
+     * @param movieID идентификатор фильма
+     * @return List Session
+     */
     @Override
     public List<Session> sessionForMovie(int movieID) {
         List<Session> sessions = new ArrayList<>();
@@ -130,6 +159,12 @@ public class JdbcSessionRepository implements SessionRepository {
         return sessions;
     }
 
+    /**
+     * приватный метод создания нового объекта типа сеанс
+     * @param resultSet результат запроса
+     * @return новый объект типа сеанс
+     * @throws SQLException ошибка
+     */
     private Session newSession(ResultSet resultSet) throws SQLException {
         return new Session(
                 resultSet.getInt("id"),

@@ -15,6 +15,10 @@ import ru.job4j.cinema.model.Session;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
+/**
+ * Контроллер. Сеанс
+ * @author Burlakov
+ */
 @Controller
 @AllArgsConstructor
 public class SessionController implements ControllerClass {
@@ -23,6 +27,12 @@ public class SessionController implements ControllerClass {
     private final MovieService movieService;
     private static final int TYPE = TypeFailController.SESSION;
 
+    /**
+     * форма добавления
+     * @param model Model
+     * @param session HttpSession
+     * @return addSession
+     */
     @Override
     @GetMapping("/formAddSession")
     public String formAdd(Model model, HttpSession session) {
@@ -31,6 +41,11 @@ public class SessionController implements ControllerClass {
         return "addSession";
     }
 
+    /**
+     * создание новой записи
+     * @param session сеанс
+     * @return redirect:/sessions если успешно, failRedirect в противном случае
+     */
     @PostMapping("/createSession")
     public String createSession(@ModelAttribute Session session) {
         boolean rsl = sessionService.add(session);
@@ -41,6 +56,12 @@ public class SessionController implements ControllerClass {
         return redirect;
     }
 
+    /**
+     * вывод списка всех записей
+     * @param model Model
+     * @param session HttpSession
+     * @return sessions
+     */
     @Override
     @GetMapping("/sessions")
     public String lists(Model model, HttpSession session) {
@@ -49,6 +70,13 @@ public class SessionController implements ControllerClass {
         return "sessions";
     }
 
+    /**
+     * форма редактирования записи
+     * @param model Model
+     * @param id идентификатор сеанса
+     * @param session HttpSession
+     * @return updateSession если успешно, failRedirect в противном случае
+     */
     @GetMapping("/formUpdateSession/{sessionId}")
     public String formUpdateSession(Model model,
                                     @PathVariable("sessionId") int id, HttpSession session) {
@@ -63,6 +91,11 @@ public class SessionController implements ControllerClass {
         return redirect;
     }
 
+    /**
+     * обновление записи
+     * @param session сеанс
+     * @return sessions если успешно, failRedirect в противном случае
+     */
     @PostMapping("/updateSession")
     public String updateSession(@ModelAttribute Session session) {
         boolean rsl = sessionService.update(session);
@@ -73,6 +106,13 @@ public class SessionController implements ControllerClass {
         return redirect;
     }
 
+    /**
+     * форма места в кинозале
+     * @param model model
+     * @param sessionID идентификатор сеанса
+     * @param session HttpSession
+     * @return place если успешно, failRedirect в противном случае
+     */
     @GetMapping("/thisSessions/{sessionId}")
     public String thisSessions(Model model, @PathVariable("sessionId") int sessionID,
                                HttpSession session) {

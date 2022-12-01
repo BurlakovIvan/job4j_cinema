@@ -16,6 +16,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс репозитория - билет
+ * Потокобезопасен за счет singleton и обработки запроса на стороне SQL
+ * @author Burlakov
+ */
 @ThreadSafe
 @AllArgsConstructor
 @Repository
@@ -42,6 +47,11 @@ public class JdbcTicketRepository implements TicketRepository {
                                          AND cell = ? AND user_id is null
                                          """;
 
+    /**
+     * добавление билетов на сеанс
+     * @param sessionID идентификатор билета
+     * @return истина если успешно, иначе ложь
+     */
     @Override
     public boolean add(int sessionID) {
         int row = NumberCinemaPlace.ROW;
@@ -64,6 +74,11 @@ public class JdbcTicketRepository implements TicketRepository {
         return rsl;
     }
 
+    /**
+     * список билетов на сеанс
+     * @param sessionId идентификатор сеанса
+     * @return List Ticket
+     */
     @Override
     public List<Ticket> findTicketForSessionMovie(int sessionId) {
         List<Ticket> tickets = new ArrayList<>();
@@ -82,6 +97,11 @@ public class JdbcTicketRepository implements TicketRepository {
         return tickets;
     }
 
+    /**
+     * билет купили
+     * @param ticket билет
+     * @return истина если успешно, иначе ложь
+     */
     @Override
     public boolean addTicketUser(Ticket ticket) {
         boolean rsl = false;
@@ -98,6 +118,12 @@ public class JdbcTicketRepository implements TicketRepository {
         return rsl;
     }
 
+    /**
+     * приватный метод создания нового объекта типа билет
+     * @param resultSet результат запроса
+     * @return новый объект типа билет
+     * @throws SQLException ошибка
+     */
     private Ticket newTicket(ResultSet resultSet, int sessionId) throws SQLException {
         return new Ticket(
                 resultSet.getInt("id"),

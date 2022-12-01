@@ -12,12 +12,22 @@ import ru.job4j.cinema.util.UserSession;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
+/**
+ * Контроллер. Страна
+ * @author Burlakov
+ */
 @Controller
 @AllArgsConstructor
 public class CountryController implements ControllerClass {
     private final CountryService countryService;
     private static final int TYPE = TypeFailController.COUNTRY;
 
+    /**
+     * форма добавления новой записи
+     * @param model Model
+     * @param session HttpSession
+     * @return addCountry
+     */
     @Override
     @GetMapping("/formAddCountry")
     public String formAdd(Model model, HttpSession session) {
@@ -26,6 +36,11 @@ public class CountryController implements ControllerClass {
         return "addCountry";
     }
 
+    /**
+     * добавление новой записи
+     * @param country ModelAttribute country
+     * @return redirect:/countries если успешно, failRedirect в противном случае
+     */
     @PostMapping("/createCountry")
     public String createCountry(@ModelAttribute Country country) {
         boolean rsl = countryService.add(country);
@@ -36,6 +51,12 @@ public class CountryController implements ControllerClass {
         return redirect;
     }
 
+    /**
+     * форма со списком всех элементов
+     * @param model Model
+     * @param session HttpSession
+     * @return countries
+     */
     @Override
     @GetMapping("/countries")
     public String lists(Model model, HttpSession session) {
@@ -44,6 +65,13 @@ public class CountryController implements ControllerClass {
         return "countries";
     }
 
+    /**
+     * форма редактирования записи
+     * @param model Model
+     * @param id идентификатор записи, которую редактируем
+     * @param session HttpSession
+     * @return updateCountry если успешно, failRedirect в противном случае
+     */
     @GetMapping("/formUpdateCountry/{countryId}")
     public String formUpdateCountry(Model model, @PathVariable("countryId") int id, HttpSession session) {
         model.addAttribute("user", UserSession.user(session));
@@ -56,6 +84,11 @@ public class CountryController implements ControllerClass {
         return redirect;
     }
 
+    /**
+     * редактирование элемента
+     * @param country ModelAttribute Country
+     * @return redirect:/countries если успешно, failRedirect в противном случае
+     */
     @PostMapping("/updateCountry")
     public String updateCountry(@ModelAttribute Country country) {
         boolean rsl = countryService.update(country);

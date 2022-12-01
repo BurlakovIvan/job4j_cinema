@@ -1,7 +1,6 @@
 package ru.job4j.cinema.util;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.springframework.context.annotation.Bean;
 import ru.job4j.cinema.Main;
 
 import javax.sql.DataSource;
@@ -9,8 +8,16 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
+/**
+ * Класс загрузки свойств подключения
+ * @author Burlakov
+ */
 public class LoadProperties {
 
+    /**
+     * создаем пул
+     * @return DataSource пул
+     */
     public DataSource loadPool() {
         Properties cfg = loadDbProperties();
         BasicDataSource pool = new BasicDataSource();
@@ -24,6 +31,10 @@ public class LoadProperties {
         return pool;
     }
 
+    /**
+     * считываем настройки из файла
+     * @return Properties
+     */
     public Properties loadDbProperties() {
         Properties cfg = new Properties();
         try (BufferedReader io = new BufferedReader(

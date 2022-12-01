@@ -7,12 +7,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
+/**
+ * Класс фильтр
+ * @author Burlakov
+ */
 @Component
 public class AuthFilter implements Filter {
 
     private final Set<String> allowedLinks = Set.of("index", "fail", "login", "AddUser", "photoMovie",
             "registration", "loginPage", "logout", "formAddUser", "thisSessions", "theMovie");
 
+    /**
+     * проверка на вхождение страницы
+     * @param uri url адреса
+     * @return истина если найден, иначе ложь
+     */
     public boolean allowed(String uri) {
         String[] split = uri.split("/");
         return split.length > 0
@@ -20,6 +29,14 @@ public class AuthFilter implements Filter {
                         || (split.length > 2 &&  allowedLinks.contains(split[split.length - 2])));
     }
 
+    /**
+     * фильтр
+     * @param request ServletRequest
+     * @param response ServletResponse
+     * @param chain FilterChain
+     * @throws IOException ошибка
+     * @throws ServletException ошибка
+     */
     @Override
     public void doFilter(
             ServletRequest request,

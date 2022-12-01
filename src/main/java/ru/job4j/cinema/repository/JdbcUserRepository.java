@@ -13,6 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Класс репозитория - пользователь
+ * Потокобезопасен за счет singleton и обработки запроса на стороне SQL
+ * @author Burlakov
+ */
 @ThreadSafe
 @AllArgsConstructor
 @Repository
@@ -28,6 +33,10 @@ public class JdbcUserRepository implements UserRepository {
                                          VALUES (?, ?, ?)
                                          """;
 
+    /**
+     * список всех пользователей
+     * @return List User
+     */
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
@@ -45,6 +54,11 @@ public class JdbcUserRepository implements UserRepository {
         return users;
     }
 
+    /**
+     * добавление нового пользователя
+     * @param user пользователь
+     * @return Optional от User
+     */
     @Override
     public Optional<User> add(User user) {
         Optional<User> rsl = Optional.empty();
@@ -68,6 +82,11 @@ public class JdbcUserRepository implements UserRepository {
         return rsl;
     }
 
+    /**
+     * поиск пользователя по идентификатору
+     * @param id идентификатор пользователя
+     * @return Optional от User
+     */
     @Override
     public Optional<User> findById(int id) {
         Optional<User> rsl = Optional.empty();
@@ -86,6 +105,12 @@ public class JdbcUserRepository implements UserRepository {
         return rsl;
     }
 
+    /**
+     * поиск пользователя по электронной почте и паролю
+     * @param email электронная почта пользователя
+     * @param password пароль пользователя
+     * @return Optional от User
+     */
     @Override
     public Optional<User> findUserByEmailAndPwd(String email, String password) {
         Optional<User> rsl = Optional.empty();
@@ -105,6 +130,12 @@ public class JdbcUserRepository implements UserRepository {
         return rsl;
     }
 
+    /**
+     * приватный метод создания нового объекта типа пользователь
+     * @param resultSet результат запроса
+     * @return новый объект типа пользователь
+     * @throws SQLException ошибка
+     */
     private User newUser(ResultSet resultSet) throws SQLException {
         return new User(
                 resultSet.getInt("id"),

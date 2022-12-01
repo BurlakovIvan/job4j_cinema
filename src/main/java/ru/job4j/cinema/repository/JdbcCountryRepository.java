@@ -13,6 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Класс репозитория - страна
+ * Потокобезопасен за счет singleton и обработки запроса на стороне SQL
+ * @author Burlakov
+ */
 @ThreadSafe
 @AllArgsConstructor
 @Repository
@@ -31,6 +36,10 @@ public class JdbcCountryRepository implements CountryRepository {
                                          VALUES (?)
                                          """;
 
+    /**
+     * список всех стран
+     * @return List Country
+     */
     @Override
     public List<Country> findAll() {
         List<Country> countries = new ArrayList<>();
@@ -48,6 +57,11 @@ public class JdbcCountryRepository implements CountryRepository {
         return countries;
     }
 
+    /**
+     * добавление новой страны
+     * @param country страна
+     * @return истина если успешно, иначе ложь
+     */
     @Override
     public boolean add(Country country) {
         boolean rsl = false;
@@ -62,6 +76,11 @@ public class JdbcCountryRepository implements CountryRepository {
         return rsl;
     }
 
+    /**
+     * обновление записи
+     * @param country страна
+     * @return истина если успешно, иначе ложь
+     */
     @Override
     public boolean update(Country country) {
         boolean rsl  = false;
@@ -76,6 +95,11 @@ public class JdbcCountryRepository implements CountryRepository {
         return rsl;
     }
 
+    /**
+     * поиск записи по идентификатору
+     * @param id идентификатор страны
+     * @return Optional от Country
+     */
     @Override
     public Optional<Country> findById(int id) {
         Optional<Country> rsl = Optional.empty();
@@ -94,6 +118,12 @@ public class JdbcCountryRepository implements CountryRepository {
         return rsl;
     }
 
+    /**
+     * приватный метод создания нового объекта типа страна
+     * @param resultSet результат запроса
+     * @return новый объект типа страна
+     * @throws SQLException ошибка
+     */
     private Country newCountry(ResultSet resultSet) throws SQLException {
         return new Country(
                 resultSet.getInt("id"),
