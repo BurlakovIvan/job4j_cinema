@@ -8,10 +8,7 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.cinema.model.Session;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 /**
@@ -82,11 +79,16 @@ public class JdbcSessionRepository implements SessionRepository {
     public boolean add(Session session) {
         boolean rsl = false;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement(INSERT)
+             PreparedStatement ps = cn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, session.getName());
             ps.setInt(2, session.getMovieId());
             rsl = ps.executeUpdate() > 0;
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    session.setId(keys.getInt(0));
+                }
+            }
         } catch (Exception ex) {
             LOGGER.error("ERROR: ", ex);
         }

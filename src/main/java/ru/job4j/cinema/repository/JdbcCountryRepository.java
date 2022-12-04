@@ -66,10 +66,15 @@ public class JdbcCountryRepository implements CountryRepository {
     public boolean add(Country country) {
         boolean rsl = false;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement(INSERT)
+             PreparedStatement ps = cn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, country.getName());
             rsl = ps.executeUpdate() > 0;
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    country.setId(keys.getInt(0));
+                }
+            }
         } catch (Exception ex) {
             LOGGER.error("ERROR: ", ex);
         }

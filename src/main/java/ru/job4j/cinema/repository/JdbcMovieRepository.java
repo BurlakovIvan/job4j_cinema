@@ -99,7 +99,7 @@ public class JdbcMovieRepository implements MovieRepository {
     public boolean add(Movie movie) {
         boolean rsl = false;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement(INSERT)
+             PreparedStatement ps = cn.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, movie.getName());
             ps.setString(2, movie.getDescription());
@@ -108,6 +108,11 @@ public class JdbcMovieRepository implements MovieRepository {
             ps.setInt(4, movie.getCountryId());
             ps.setBytes(5, movie.getPhoto());
             rsl = ps.executeUpdate() > 0;
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    movie.setId(keys.getInt(0));
+                }
+            }
         } catch (Exception ex) {
             LOGGER.error("ERROR: ", ex);
         }
