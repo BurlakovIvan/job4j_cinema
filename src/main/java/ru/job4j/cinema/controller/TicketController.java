@@ -36,7 +36,7 @@ public class TicketController implements ControllerClass {
     public String formAdd(Model model, HttpSession session) {
         model.addAttribute("user", UserSession.user(session));
         model.addAttribute("ticket", new Ticket());
-        model.addAttribute("sessions", sessionService.findAll());
+        model.addAttribute("sessions", sessionService.findAllWithMovieName());
         return "addTicket";
     }
 

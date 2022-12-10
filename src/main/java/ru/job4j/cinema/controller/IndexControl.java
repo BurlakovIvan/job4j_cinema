@@ -31,7 +31,7 @@ public class IndexControl {
     public String index(Model model, HttpSession session) {
         model.addAttribute("user", UserSession.user(session));
         model.addAttribute("movies", movieService.findAllWithCountryName());
-        model.addAttribute("sessions", sessionService.findAll());
+        model.addAttribute("sessions", sessionService.findAllWithMovieName());
         return "index";
     }
 }

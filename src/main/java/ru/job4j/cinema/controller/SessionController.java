@@ -66,7 +66,7 @@ public class SessionController implements ControllerClass {
     @GetMapping("/sessions")
     public String lists(Model model, HttpSession session) {
         model.addAttribute("user", UserSession.user(session));
-        model.addAttribute("sessions", sessionService.findAll());
+        model.addAttribute("sessions", sessionService.findAllWithMovieName());
         return "sessions";
     }
 

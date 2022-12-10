@@ -23,11 +23,8 @@ public class JdbcSessionRepository implements SessionRepository {
     private final DataSource pool;
     private static final Logger LOGGER = LoggerFactory.getLogger(JdbcSessionRepository.class.getName());
     private final static String SELECT = """
-                                         SELECT s.id AS id, s.movie_id AS movie_id, s.name AS name,
-                                          m.name AS movieName
-                                          FROM sessions as s
-                                         LEFT JOIN movies m
-                                         ON s.movie_id = m.id
+                                         SELECT id, movie_id, name
+                                         FROM sessions
                                          """;
     private final static String SELECT_SESSIONS = """
                                                   SELECT DISTINCT id, name, movie_id
@@ -36,7 +33,7 @@ public class JdbcSessionRepository implements SessionRepository {
                                                   ORDER BY name
                                                   """;
     private final static String ORDER_BY = "ORDER BY";
-    private final static String SELECT_WITH_WHERE = String.format("%s WHERE s.id = ?", SELECT);
+    private final static String SELECT_WITH_WHERE = String.format("%s WHERE id = ?", SELECT);
     private final static String UPDATE = """
                                          UPDATE sessions
                                          SET name = ?, movie_id = ?
@@ -48,20 +45,19 @@ public class JdbcSessionRepository implements SessionRepository {
                                          """;
 
     /**
-     * список всех сеансов с названиями фильмов
-     * @return Map от Session(ключ) и название фильма(значение)
+     * список всех сеансов
+     * @return List от Session
      */
     @Override
-    public Map<Session, String> findAll() {
-        Map<Session, String> sessions = new HashMap<>();
+    public List<Session> findAll() {
+        List<Session> sessions = new ArrayList<>();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     String.format("%s %s movie_id, name", SELECT, ORDER_BY))
+                     String.format("%s %s name", SELECT, ORDER_BY))
         ) {
             try (ResultSet resultSet = ps.executeQuery()) {
                 while (resultSet.next()) {
-                    sessions.put(newSession(resultSet),
-                            resultSet.getString("movieName"));
+                    sessions.add(newSession(resultSet));
                 }
             }
         } catch (Exception ex) {

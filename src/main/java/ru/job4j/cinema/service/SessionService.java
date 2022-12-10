@@ -15,7 +15,7 @@ public interface SessionService {
      * список всех сеансов с названиями фильмов
      * @return Map от Session(ключ) и название фильма(значение)
      */
-    Map<Session, String> findAll();
+    Map<Session, String> findAllWithMovieName();
 
     /**
      * добавление нового сеанса

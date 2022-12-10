@@ -2,12 +2,15 @@ package ru.job4j.cinema.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.job4j.cinema.model.Country;
 import ru.job4j.cinema.model.Movie;
+import ru.job4j.cinema.repository.CountryRepository;
 import ru.job4j.cinema.repository.MovieRepository;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Класс сервис - фильм
@@ -18,13 +21,25 @@ import java.util.Optional;
 public class SimpleMovieService implements MovieService {
     private final MovieRepository movieRepository;
 
+    private final CountryRepository countryRepository;
+
     /**
      * все фильмы вместе с названиями стран производства
-     * @return Map от Movie(ключ) и  название страны(значение)
+     * @return Map от Movie(ключ) и название страны(значение)
      */
     @Override
     public Map<Movie, String> findAllWithCountryName() {
-        return movieRepository.findAllWithCountryName();
+        Map<Integer, String> countries = countryRepository
+                .findAll()
+                .stream()
+                .collect(Collectors
+                        .toMap(Country::getId, Country::getName));
+        List<Movie> movies = findAll();
+        return movies
+                .stream()
+                .collect(Collectors
+                        .toMap(movie -> movie,
+                                movie -> countries.get(movie.getCountryId())));
     }
 
     /**

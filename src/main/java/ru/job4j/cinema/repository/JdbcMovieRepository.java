@@ -25,13 +25,6 @@ public class JdbcMovieRepository implements MovieRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(JdbcMovieRepository.class.getName());
     private final static String SELECT = "SELECT * FROM movies";
 
-    private final static String SELECT_AND_COUNTRY_NAME = """
-                                                          SELECT m.id, m.name, m.description, m.created,
-                                                              m.photo, m.country_id, c.name AS countryName
-                                                          FROM movies m
-                                                          LEFT JOIN countries c
-                                                          ON m.country_id = c.id
-                                                          """;
     private final static String SELECT_WITH_WHERE = String.format("%s WHERE id = ?", SELECT);
 
     private final static String UPDATE = """
@@ -45,29 +38,6 @@ public class JdbcMovieRepository implements MovieRepository {
                                          INSERT INTO movies(name, description, created, country_id, photo)
                                          VALUES (?, ?, ?, ?, ?)
                                          """;
-
-    /**
-     * все фильмы вместе с названиями стран производства
-     * @return Map от Movie(ключ) и название страны(значение)
-     */
-    @Override
-    public Map<Movie, String> findAllWithCountryName() {
-        Map<Movie, String> movies = new HashMap<>();
-        try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement(SELECT_AND_COUNTRY_NAME)
-        ) {
-            try (ResultSet resultSet = ps.executeQuery()) {
-                Movie movieResult;
-                while (resultSet.next()) {
-                    movieResult = newMovie(resultSet);
-                    movies.put(movieResult, resultSet.getString("countryName"));
-                }
-            }
-        } catch (Exception ex) {
-            LOGGER.error("ERROR: ", ex);
-        }
-        return movies;
-    }
 
     /**
      * список всех фильмов

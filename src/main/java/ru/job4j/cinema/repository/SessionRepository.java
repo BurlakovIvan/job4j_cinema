@@ -3,7 +3,6 @@ package ru.job4j.cinema.repository;
 import ru.job4j.cinema.model.Session;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -13,10 +12,10 @@ import java.util.Optional;
 public interface SessionRepository {
 
     /**
-     * список всех сеансов с названиями фильмов
-     * @return Map от Session(ключ) и название фильма(значение)
+     * список всех сеансов
+     * @return List от Session
      */
-    Map<Session, String> findAll();
+    List<Session> findAll();
 
     /**
      * добавление нового сеанса

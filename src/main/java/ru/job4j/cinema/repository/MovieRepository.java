@@ -3,7 +3,6 @@ package ru.job4j.cinema.repository;
 import ru.job4j.cinema.model.Movie;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -11,12 +10,6 @@ import java.util.Optional;
  * @author Burlakov
  */
 public interface MovieRepository {
-    /**
-     * все фильмы вместе с названиями стран производства
-     * @return Map от Movie (ключ) и название страны(значение)
-     */
-    Map<Movie, String> findAllWithCountryName();
-
     /**
      * список всех фильмов
      * @return List Movie
