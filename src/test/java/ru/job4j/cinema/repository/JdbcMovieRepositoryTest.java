@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -47,18 +46,6 @@ class JdbcMovieRepositoryTest {
                 .isNotEmpty()
                 .get()
                 .isEqualTo(movie);
-    }
-
-    @Test
-    public void whenFindAllMoviesWithCountryName() {
-        Movie movie = new Movie(1, "Movie",
-                "Description", LocalDate.now(), 1, null);
-        var create = REPOSITORY.add(movie);
-        assertThat(create).isTrue();
-        var movieInRep = REPOSITORY.findAllWithCountryName();
-        assertThat(movieInRep)
-                .isNotEmpty()
-                .isEqualTo(Map.of(movie, "Country"));
     }
 
     @Test

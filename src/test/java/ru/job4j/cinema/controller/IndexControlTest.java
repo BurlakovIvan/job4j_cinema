@@ -35,7 +35,7 @@ class IndexControlTest {
         MovieService movieService = mock(SimpleMovieService.class);
         SessionService sessionService = mock(SimpleSessionService.class);
         when(movieService.findAllWithCountryName()).thenReturn(movies);
-        when(sessionService.findAll()).thenReturn(sessions);
+        when(sessionService.findAllWithMovieName()).thenReturn(sessions);
         IndexControl indexControl = new IndexControl(movieService, sessionService);
         String page = indexControl.index(model, session);
         assertThat(page).isEqualTo("index");

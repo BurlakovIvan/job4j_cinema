@@ -33,9 +33,9 @@ class TicketControllerTest {
         TicketService ticketService = mock(SimpleTicketService.class);
         TicketController ticketController
                 = new TicketController(ticketService, sessionService);
-        when(sessionService.findAll()).thenReturn(sessions);
+        when(sessionService.findAllWithMovieName()).thenReturn(sessions);
         String page = ticketController.formAdd(model, session);
-        verify(sessionService).findAll();
+        verify(sessionService).findAllWithMovieName();
         assertThat(page).isEqualTo("addTicket");
     }
 

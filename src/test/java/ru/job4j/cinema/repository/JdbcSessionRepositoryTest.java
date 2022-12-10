@@ -13,7 +13,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -65,7 +64,7 @@ class JdbcSessionRepositoryTest {
         assertThat(create).isTrue();
         var sessionInRep = REPOSITORY.findAll();
         assertThat(sessionInRep)
-                .isEqualTo(Map.of(session1, "Movie1", session2, "Movie2"));
+                .isEqualTo(List.of(session1, session2));
     }
 
     @Test

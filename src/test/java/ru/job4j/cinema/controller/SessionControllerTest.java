@@ -84,11 +84,11 @@ class SessionControllerTest {
         SessionService sessionService = mock(SimpleSessionService.class);
         TicketService ticketService = mock(SimpleTicketService.class);
         MovieService movieService = mock(SimpleMovieService.class);
-        when(sessionService.findAll()).thenReturn(sessions);
+        when(sessionService.findAllWithMovieName()).thenReturn(sessions);
         SessionController sessionController =
                 new SessionController(sessionService, ticketService, movieService);
         String page = sessionController.lists(model, session);
-        verify(sessionService).findAll();
+        verify(sessionService).findAllWithMovieName();
         assertThat(page).isEqualTo("sessions");
     }
 
